@@ -1,22 +1,28 @@
 package com.example.order_jpa.controller;
 
+import com.example.order_jpa.dto.ProductCreateDto;
 import com.example.order_jpa.dto.ProductUpdateDto;
 import com.example.order_jpa.entity.Product;
 import com.example.order_jpa.service.ProductService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/product")
 public class ProductController {
     private final ProductService productService;
+    private final MessageSource ms;
 
     @GetMapping("/list")
     public String getAllProducts(Model model) {
@@ -32,8 +38,22 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute Product product) {
-        productService.addProduct(product);
+    public String addProduct(@Validated @ModelAttribute ProductCreateDto productCreateDto,
+                             BindingResult bindingResult,
+                             Model model) {
+
+        boolean b1 = bindingResult.hasErrors();
+        boolean b2 = bindingResult.hasFieldErrors();
+        boolean b3 = bindingResult.hasGlobalErrors();
+        log.info("bindingResult {} : " , bindingResult);
+        System.out.println("b1 :" + b1);
+        System.out.println("b2 :" + b2);
+        System.out.println("b3 :" + b3);
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("product", new Product());
+            return "product/productForm";
+        }
+        productService.addProduct(productCreateDto);
         return "redirect:/product/list";
     }
 

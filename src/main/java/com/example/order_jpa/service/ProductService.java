@@ -1,5 +1,6 @@
 package com.example.order_jpa.service;
 
+import com.example.order_jpa.dto.ProductCreateDto;
 import com.example.order_jpa.dto.ProductUpdateDto;
 import com.example.order_jpa.entity.Product;
 import com.example.order_jpa.repository.JPAProductRepository;
@@ -19,7 +20,11 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public void addProduct(Product product) {
+    public void addProduct(ProductCreateDto productCreateDto) {
+        Product product = new Product();
+        product.setName(productCreateDto.getName());
+        product.setPrice(productCreateDto.getPrice());
+        product.setQuantity(productCreateDto.getQuantity());
         productRepository.save(product);
     }
 
