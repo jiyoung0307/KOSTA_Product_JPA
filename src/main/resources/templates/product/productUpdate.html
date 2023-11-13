@@ -2,20 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>상품상세</title>
+    <title th:text="#{page.productUpdate}">상품상세</title>
 </head>
 <body>
     <form action="/product/update" method="post" th:object="${product}">
 <!--        model 로 product을 넘겨줘야 th:object과 th:field 와 th:value를 사용할 수 있음 -->
-        <label for="productId" th:text="#{product.productId}">상품id</label>
+        <label for="productId" th:text="#{label.productId}">상품id</label>
         <input type="text" th:field="*{productId}" readonly>
-        <label for="name" th:text="#{product.name}">상품명</label>
+        <label for="name" th:text="#{label.name}">상품명</label>
         <input type="text" th:field="*{name}">
-        <label for="price" th:text="#{product.price}">상품가격</label>
+        <label for="price" th:text="#{label.price}">상품가격</label>
         <input type="text" th:field="*{price}">
-        <label for="quantity" th:text="#{product.quantity}">재고수량</label>
+        <label for="quantity" th:text="#{label.quantity}">재고수량</label>
         <input type="text" th:field="*{quantity}" readonly>
-        <input type="submit" value="상품수정">
+        <input type="submit" th:value="#{button.update}" value="상품수정">
     </form>
 </body>
 </html>
